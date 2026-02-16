@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hogwarts Owl Post Proposal</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Great+Vibes&family=Marcellus&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --night-1: #080b1a;
+      --night-2: #1a1034;
+      --night-3: #2b1850;
+      --gold: #f7d68b;
+      --gold-deep: #c79637;
+      --paper-1: #f8efd7;
+      --paper-2: #ecd4a1;
+      --ink: #2f210f;
+      --rose: #d98397;
+      --glow: rgba(255, 217, 145, 0.45);
+      --shadow: rgba(4, 3, 14, 0.52);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      color: #fff;
+      font-family: "Marcellus", serif;
+      background:
+        radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.15), transparent 20%),
+        radial-gradient(circle at 86% 8%, rgba(171, 111, 255, 0.22), transparent 23%),
+        radial-gradient(circle at 50% 100%, rgba(245, 171, 133, 0.09), transparent 36%),
+        linear-gradient(165deg, var(--night-1), var(--night-2) 55%, var(--night-3));
+      overflow-x: hidden;
+      overflow-y: auto;
+      padding: clamp(14px, 3.2vw, 28px);
+      position: relative;
+    }
+
+    .floating-hall {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .stars {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.95) 1px, transparent 1.45px),
+        radial-gradient(circle, rgba(250, 230, 170, 0.9) 0.9px, transparent 1.5px);
+      background-size: 38px 38px, 64px 64px;
+      background-position: 0 0, 20px 16px;
+      opacity: 0.36;
+      animation: starDrift 34s linear infinite;
+    }
+
+    .mist {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 75%, rgba(170, 140, 255, 0.08), transparent 28%),
+        radial-gradient(circle at 75% 85%, rgba(255, 205, 132, 0.08), transparent 24%);
+      filter: blur(18px);
+      animation: mistFlow 14s ease-in-out infinite alternate;
+    }
+
+    .candles {
+      position: absolute;
+      inset: 0;
+    }
+
+    .candle {
+      position: absolute;
+      font-size: clamp(22px, 3.2vw, 32px);
+      filter: drop-shadow(0 0 12px rgba(248, 204, 124, 0.5));
+      animation: float 4s ease-in-out infinite;
+      opacity: 0.95;
+    }
+
+    .candle:nth-child(1) { left: 8%; top: 12%; }
+    .candle:nth-child(2) { left: 86%; top: 17%; animation-delay: 1.2s; }
+    .candle:nth-child(3) { left: 12%; top: 78%; animation-delay: 0.7s; }
+    .candle:nth-child(4) { left: 82%; top: 76%; animation-delay: 2.1s; }
+
+    .owl-flight {
+      position: absolute;
+      top: 11%;
+      left: -80px;
+      font-size: clamp(24px, 3.4vw, 36px);
+      animation: owlFly 18s linear infinite;
+      text-shadow: 0 0 10px rgba(255, 226, 164, 0.38);
+    }
+
+    .wand {
+      position: fixed;
+      font-size: 20px;
+      z-index: 50;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      opacity: 0.9;
+    }
+
+    .spark {
+      position: fixed;
+      z-index: 45;
+      pointer-events: none;
+      animation: sparkFade 900ms ease forwards;
+      font-size: 14px;
+    }
+
+    .page-wrap {
+      min-height: calc(100dvh - 2 * clamp(14px, 3.2vw, 28px));
+      display: grid;
+      place-items: center;
+      position: relative;
+      z-index: 4;
+    }
+
+    .stage {
+      width: min(94vw, 760px);
+      display: grid;
+      justify-items: center;
+      gap: 16px;
+    }
+
+    .house-row {
+      font-family: "Cinzel", serif;
+      letter-spacing: 0.8px;
+      font-size: clamp(0.76rem, 2.1vw, 0.96rem);
+      color: rgba(255, 236, 190, 0.92);
+      text-shadow: 0 1px 8px rgba(21, 8, 36, 0.45);
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .house-badge {
+      border: 1px solid rgba(255, 228, 167, 0.32);
+      border-radius: 999px;
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(5px);
+    }
+
+    .seal {
+      width: 94px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 33px;
+      color: #ffdca1;
+      border: 2px solid rgba(255, 225, 162, 0.45);
+      background: radial-gradient(circle at 30% 26%, rgba(255, 244, 208, 0.24), rgba(120, 39, 11, 0.48));
+      box-shadow:
+        0 0 0 8px rgba(255, 225, 162, 0.08),
+        0 0 24px rgba(255, 215, 149, 0.2);
+      animation: pulseSeal 2.4s ease-in-out infinite;
+    }
+
+    .envelope {
+      width: min(92vw, 430px);
+      aspect-ratio: 1.55;
+      background: linear-gradient(155deg, #f8e6b8, #eecb87 58%, #e4ba73);
+      color: #553510;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 248, 228, 0.55);
+      box-shadow: 0 22px 42px var(--shadow);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 18px;
+      font-family: "Cinzel", serif;
+      font-weight: 700;
+      letter-spacing: 0.65px;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+    }
+
+    .envelope::after {
+      content: "From Hogwarts School of Witchcraft & Wizardry";
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      font-size: clamp(0.62rem, 1.9vw, 0.72rem);
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      opacity: 0.8;
+      font-family: "Marcellus", serif;
+    }
+
+    .envelope:hover {
+      transform: translateY(-3px);
+    }
+
+    .envelope.open {
+      opacity: 0;
+      transform: translateY(-10px) scale(1.04);
+      pointer-events: none;
+      height: 0;
+      margin: 0;
+      padding: 0;
+      border: none;
+      overflow: hidden;
+    }
+
+    .envelope-title {
+      font-size: clamp(1.02rem, 3.2vw, 1.32rem);
+      line-height: 1.4;
+    }
+
+    .envelope-tip {
+      margin-top: 10px;
+      font-family: "Marcellus", serif;
+      font-size: 0.88rem;
+      opacity: 0.82;
+    }
+
+    .letter {
+      width: min(94vw, 690px);
+      background:
+        linear-gradient(145deg, rgba(248, 239, 214, 0.985), rgba(232, 211, 164, 0.97));
+      color: var(--ink);
+      border-radius: 18px;
+      border: 2px solid rgba(147, 98, 24, 0.28);
+      box-shadow: 0 26px 52px var(--shadow);
+      padding: clamp(20px, 3.8vw, 34px);
+      display: none;
+      transform: translateY(12px) scale(0.98);
+      opacity: 0;
+      transition: transform 0.7s ease, opacity 0.7s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .letter.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .letter::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, transparent 12%, rgba(113, 83, 37, 0.06) 12.8%, transparent 13.2%),
+        linear-gradient(to right, transparent 8%, rgba(113, 83, 37, 0.045) 8.6%, transparent 9%);
+      background-size: 100% 34px, 34px 100%;
+      opacity: 0.23;
+      pointer-events: none;
+    }
+
+    .heading {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .heading .tag {
+      font-family: "Cinzel", serif;
+      color: #6a4611;
+      letter-spacing: 0.6px;
+      font-size: clamp(0.82rem, 2.2vw, 0.97rem);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .heading h1 {
+      font-family: "Great Vibes", cursive;
+      font-size: clamp(44px, 8vw, 70px);
+      line-height: 1.04;
+      color: #5d3912;
+      margin-bottom: 10px;
+    }
+
+    .heading .sub {
+      font-family: "Cinzel", serif;
+      font-size: clamp(0.94rem, 2.5vw, 1.18rem);
+      color: #4a2f11;
+    }
+
+    .memory {
+      margin: 16px auto 14px;
+      width: min(92%, 330px);
+      border-radius: 15px;
+      overflow: hidden;
+      border: 3px solid rgba(255, 250, 234, 0.72);
+      box-shadow: 0 12px 24px rgba(56, 34, 9, 0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    .memory img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .vow {
+      text-align: center;
+      max-width: 520px;
+      margin: 2px auto 18px;
+      font-size: clamp(0.95rem, 2.7vw, 1.12rem);
+      line-height: 1.55;
+      position: relative;
+      z-index: 1;
+    }
+
+    .spell-line {
+      text-align: center;
+      font-family: "Cinzel", serif;
+      color: #5e3c12;
+      font-size: clamp(0.84rem, 2.2vw, 0.97rem);
+      letter-spacing: 0.45px;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .action-zone {
+      position: relative;
+      width: min(100%, 440px);
+      margin: 0 auto;
+      min-height: 84px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      z-index: 2;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: "Cinzel", serif;
+      font-size: 1rem;
+      letter-spacing: 0.45px;
+      font-weight: 700;
+      padding: 12px 22px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    }
+
+    #yesBtn {
+      background: linear-gradient(135deg, #f5d57e, #d98697);
+      color: #2a1502;
+      box-shadow: 0 9px 20px rgba(180, 86, 114, 0.34);
+    }
+
+    #yesBtn:hover {
+      transform: translateY(-1px) scale(1.05);
+      filter: saturate(1.05);
+    }
+
+    #noBtn {
+      background: #fffaf0;
+      color: #50340f;
+      border: 1px solid rgba(102, 75, 39, 0.22);
+      box-shadow: 0 7px 15px rgba(0, 0, 0, 0.14);
+      position: absolute;
+      left: 56%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      white-space: nowrap;
+    }
+
+    .result {
+      margin-top: 12px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .result button {
+      background: linear-gradient(135deg, #8054cb, #4a2f88);
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(67, 40, 122, 0.35);
+      font-size: 0.95rem;
+      padding-inline: 18px;
+    }
+
+    .success {
+      animation: glowPop 700ms ease;
+    }
+
+    @keyframes starDrift {
+      from { transform: translate3d(0, 0, 0); }
+      to { transform: translate3d(-50px, -40px, 0); }
+    }
+
+    @keyframes mistFlow {
+      from { transform: translateX(-14px) translateY(-6px); }
+      to { transform: translateX(14px) translateY(8px); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-13px); }
+    }
+
+    @keyframes owlFly {
+      from { transform: translateX(0); }
+      to { transform: translateX(calc(100vw + 160px)); }
+    }
+
+    @keyframes sparkFade {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-18px) scale(0.5); }
+    }
+
+    @keyframes pulseSeal {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 8px rgba(255, 225, 162, 0.08), 0 0 24px rgba(255, 215, 149, 0.2);
+      }
+      50% {
+        transform: scale(1.04);
+        box-shadow: 0 0 0 12px rgba(255, 225, 162, 0.12), 0 0 32px rgba(255, 215, 149, 0.28);
+      }
+    }
+
+    @keyframes glowPop {
+      0% { transform: scale(0.97); filter: saturate(0.8); }
+      100% { transform: scale(1); filter: saturate(1); }
+    }
+
+    @media (max-width: 700px) {
+      #noBtn {
+        position: relative;
+        left: auto;
+        top: auto;
+        transform: none;
+      }
+
+      .action-zone {
+        min-height: auto;
+      }
+
+      .wand {
+        opacity: 0;
+      }
+
+      .owl-flight {
+        top: 6%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .wand,
+      .owl-flight {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="floating-hall" aria-hidden="true">
+    <div class="stars"></div>
+    <div class="mist"></div>
+    <div class="candles">
+      <span class="candle">🕯️</span>
+      <span class="candle">🕯️</span>
+      <span class="candle">🕯️</span>
+      <span class="candle">🕯️</span>
+    </div>
+    <div class="owl-flight">🦉</div>
+  </div>
+
+  <audio id="bgMusic" loop autoplay>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9b1c47.mp3?filename=romantic-ambient-piano-110624.mp3" type="audio/mp3">
+  </audio>
+
+  <div class="wand" id="wand" aria-hidden="true">🪄</div>
+
+  <div class="page-wrap">
+    <main class="stage">
+      <div class="house-row" aria-hidden="true">
+        <span class="house-badge">🦁 Gryffindor Courage</span>
+        <span class="house-badge">🦅 Ravenclaw Wit</span>
+        <span class="house-badge">🦡 Hufflepuff Loyalty</span>
+        <span class="house-badge">🐍 Slytherin Ambition</span>
+      </div>
+
+      <div class="seal" aria-hidden="true">⚡</div>
+
+      <section class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open your Hogwarts letter">
+        <p class="envelope-title">Miss Maahi,<br>Your Owl Post Has Arrived</p>
+        <p class="envelope-tip">Tap the letter and let the magic begin.</p>
+      </section>
+
+      <section class="letter" id="letter" aria-live="polite">
+        <header class="heading">
+          <p class="tag">Hogwarts Department of Heart Charms</p>
+          <h1>Maahi</h1>
+          <p class="sub">Will You Be The Hermione To My Ron?</p>
+        </header>
+
+        <figure class="memory">
+          <img id="proposalGif" src="https://media.giphy.com/media/ROF8OQvDmxytW/giphy.gif" alt="Magical romantic gif">
+        </figure>
+
+        <p class="vow" id="vowText">
+          By moonlit corridors and floating candles, I promise laughter, loyalty, and little bits of magic in every ordinary day with you.
+        </p>
+
+        <p class="spell-line" id="spellText">Incantation active: Amora Eternum ✨</p>
+
+        <div class="action-zone" id="actionZone">
+          <button id="yesBtn" type="button">Always, Yes</button>
+          <button id="noBtn" type="button">No</button>
+        </div>
+
+        <div class="result" id="resultZone"></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const envelope = document.getElementById("envelope");
+    const letter = document.getElementById("letter");
+    const wand = document.getElementById("wand");
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const actionZone = document.getElementById("actionZone");
+    const resultZone = document.getElementById("resultZone");
+    const proposalGif = document.getElementById("proposalGif");
+    const vowText = document.getElementById("vowText");
+    const spellText = document.getElementById("spellText");
+    const music = document.getElementById("bgMusic");
+
+    let opened = false;
+    let noAttempts = 0;
+
+    function createSpark(x, y, char = "✨") {
+      const spark = document.createElement("span");
+      spark.className = "spark";
+      spark.textContent = char;
+      spark.style.left = `${x}px`;
+      spark.style.top = `${y}px`;
+      document.body.appendChild(spark);
+      window.setTimeout(() => spark.remove(), 900);
+    }
+
+    function keepMusicAlive() {
+      music.volume = 0.42;
+      const start = () => {
+        const playAttempt = music.play();
+        if (playAttempt && typeof playAttempt.then === "function") {
+          playAttempt.catch(() => {});
+        }
+      };
+
+      start();
+      music.addEventListener("pause", start);
+      music.addEventListener("ended", start);
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) start();
+      });
+
+      ["click", "touchstart", "keydown", "mousemove"].forEach((eventName) => {
+        document.addEventListener(eventName, start, { passive: true });
+      });
+
+      window.setInterval(start, 1500);
+    }
+
+    function openLetter() {
+      if (opened) return;
+      opened = true;
+
+      envelope.classList.add("open");
+      window.setTimeout(() => {
+        letter.classList.add("show");
+        letter.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 380);
+
+      for (let i = 0; i < 28; i += 1) {
+        window.setTimeout(() => {
+          createSpark(
+            Math.random() * window.innerWidth,
+            Math.random() * Math.min(window.innerHeight, 540),
+            i % 5 === 0 ? "💛" : "✨"
+          );
+        }, i * 45);
+      }
+    }
+
+    envelope.addEventListener("click", openLetter);
+    envelope.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openLetter();
+      }
+    });
+
+    document.addEventListener("mousemove", (event) => {
+      wand.style.left = `${event.clientX}px`;
+      wand.style.top = `${event.clientY}px`;
+
+      if (Math.random() > 0.8) {
+        createSpark(event.clientX, event.clientY);
+      }
+    });
+
+    function moveNoButton() {
+      if (window.matchMedia("(max-width: 700px)").matches) return;
+
+      const zoneRect = actionZone.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+      const pad = 8;
+      const maxX = Math.max(pad, zoneRect.width - btnRect.width - pad);
+      const maxY = Math.max(pad, zoneRect.height - btnRect.height - pad);
+      const x = Math.random() * (maxX - pad) + pad;
+      const y = Math.random() * (maxY - pad) + pad;
+
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+      noBtn.style.transform = "none";
+
+      noAttempts += 1;
+      yesBtn.style.transform = `scale(${Math.min(1.28, 1 + noAttempts * 0.05)})`;
+
+      if (noAttempts >= 2) noBtn.textContent = "You sure?";
+      if (noAttempts >= 5) noBtn.textContent = "Think again";
+      if (noAttempts >= 8) noBtn.textContent = "Destiny says yes";
+    }
+
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("touchstart", moveNoButton, { passive: true });
+
+    function celebrationBurst() {
+      for (let i = 0; i < 95; i += 1) {
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * window.innerHeight;
+        createSpark(x, y, i % 9 === 0 ? "💖" : "✨");
+      }
+    }
+
+    yesBtn.addEventListener("click", () => {
+      letter.classList.add("success");
+      proposalGif.src = "https://media.giphy.com/media/111ebonMs90YLu/giphy.gif";
+      vowText.textContent = "You just cast the happiest spell on my heart. From this moment on, every chapter is ours.";
+      spellText.textContent = "Spell complete: Mischief Managed Together 💫";
+
+      actionZone.innerHTML = "";
+      resultZone.innerHTML = '<button id="screenshotBtn" type="button">Send Screenshot to Mukul 📸</button>';
+
+      const screenshotBtn = document.getElementById("screenshotBtn");
+      screenshotBtn.addEventListener("click", () => {
+        window.alert("Take a screenshot and send it to Mukul ✨");
+      });
+
+      celebrationBurst();
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.matchMedia("(max-width: 700px)").matches) {
+        noBtn.style.position = "relative";
+        noBtn.style.left = "auto";
+        noBtn.style.top = "auto";
+        noBtn.style.transform = "none";
+      } else {
+        noBtn.style.position = "absolute";
+        noBtn.style.left = "56%";
+        noBtn.style.top = "50%";
+        noBtn.style.transform = "translate(-50%, -50%)";
+      }
+    });
+
+    keepMusicAlive();
+  </script>
+</body>
+</html>
